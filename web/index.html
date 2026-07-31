@@ -9,24 +9,32 @@
 <body>
     <header>
         <a href="#top" aria-label="Signal Atlas home">Signal Atlas</a>
+
         <nav aria-label="Primary navigation">
-            <a href="#explore">Explore</a>
-            <a href="#methodology">Methodology</a>
-            <a href="#about">About</a>
+            <a href="#explore">Locations</a>
+            <a href="#results">Report</a>
+            <a href="#data-source">Data source</a>
         </nav>
     </header>
+
     <main id="top">
         <section aria-labelledby="intro-title">
-            <h1 id="intro-title">Understand the climate behind every growing season.</h1>
-            <p>Explore rainfall, temperature, and sunlight patterns without digging
-    through complicated environmental datasets.</p>
-            <a href="#explore">Explore the first locations</a>
+            <p>Starting with four Nigerian locations</p>
+            <h1 id="intro-title">
+                Understand rainfall and temperature across Nigeria.
+            </h1>
+            <p>
+                Choose a location and see environmental data explained in a
+                clear and useful way.
+            </p>
+            <a href="#explore">Choose a location</a>
         </section>
+
         <section id="explore" aria-labelledby="explore-title">
-            <h2 id="explore-title">Explore growing conditions</h2>
-            <p> Select a location to explore its rainfall, temperature, and sunlight patterns.</p>
-            
-            <label for="location">Choose a location:</label>
+            <h2 id="explore-title">Choose a location</h2>
+            <p>The first locations are Ibadan, Kano, Jos and Lagos.</p>
+
+            <label for="location">Location</label>
             <select id="location" name="location">
                 <option value="">Choose a location</option>
                 <option value="ibadan">Ibadan</option>
@@ -34,26 +42,65 @@
                 <option value="jos">Jos</option>
                 <option value="lagos">Lagos</option>
             </select>
-            <button id="view-conditions" type="button">View condition patterns</button>
-            <p id="data-status" aria-live="polite"> Environmental data will appear here in a later milestone.</p>
+
+            <button id="view-conditions" type="button">
+                View conditions
+            </button>
         </section>
-        <section id="methodology" aria-labelledby="methodology-title">
-            <h2 id="methodology-title">Where the data comes from</h2>
-            <p>Signal Atlas will use meteorological observations from the NASA POWER
-          Daily API. The project will document how the data is retrieved,
-          processed, and presented.</p>
+
+        <section id="results" aria-labelledby="results-title">
+            <p>Location report</p>
+            <h2 id="results-title">No location selected</h2>
+            <p id="data-status" aria-live="polite">
+                Choose a location to prepare its report.
+            </p>
+
+            <div>
+                <section aria-labelledby="rainfall-title">
+                    <h3 id="rainfall-title">Rainfall</h3>
+                    <p>
+                        Monthly rainfall totals will appear here in millimetres.
+                    </p>
+                </section>
+
+                <section aria-labelledby="temperature-title">
+                    <h3 id="temperature-title">Temperature</h3>
+                    <p>
+                        Monthly temperature information will appear here in
+                        degrees Celsius.
+                    </p>
+                </section>
+            </div>
+
+            <aside aria-labelledby="report-details-title">
+                <h3 id="report-details-title">What each report will include</h3>
+                <ul>
+                    <li>The location and period covered.</li>
+                    <li>A simple explanation of the conditions.</li>
+                    <li>The measurement units.</li>
+                    <li>Missing-data notices when necessary.</li>
+                    <li>The source of the data.</li>
+                </ul>
+            </aside>
         </section>
-        <section id="about" aria-labelledby="about-title">
-            <h2 id="about-title">About Signal Atlas</h2>
-            <p>Signal Atlas turns meteorological data into clear, accessible explanations
-  of growing conditions across Nigeria.</p>
+
+        <section id="data-source" aria-labelledby="data-source-title">
+            <h2 id="data-source-title">Where the data comes from</h2>
+            <p>
+                Signal Atlas will begin with meteorological data from the NASA
+                POWER Daily API. Each report will explain how the data was
+                retrieved and processed.
+            </p>
+            <p>
+                The first release will describe historical conditions. It will
+                not provide forecasts, crop recommendations or professional
+                agricultural advice.
+            </p>
         </section>
     </main>
-    <footer>
-        <p>
-            Signal Atlas is an educational environmental-data project.
-        </p>
-    </footer>
 
+    <footer>
+        <p>Signal Atlas is an educational environmental-data project.</p>
+    </footer>
 </body>
 </html>
