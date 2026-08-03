@@ -20,10 +20,11 @@ The first release will not provide crop recommendations, forecasts, or professio
 
 ## Initial locations
 
-* Ibadan
-* Kano
-* Jos
+* Abuja
+* Kaduna
 * Lagos
+* Port Harcourt
+
 
 ## Data source
 
