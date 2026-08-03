@@ -83,6 +83,46 @@
                     <li>The source of the data.</li>
                 </ul>
             </aside>
+            <figure
+    id="rainfall-chart"
+    class="rainfall-chart"
+    hidden
+>
+    <figcaption class="rainfall-chart__caption">
+        <h3>Rainfall through the year</h3>
+        <p id="rainfall-chart-description">
+            Monthly rainfall totals for the selected location.
+        </p>
+    </figcaption>
+
+    <div class="rainfall-chart__scale" aria-hidden="true">
+        <span></span>
+
+        <span class="rainfall-chart__scale-values">
+            <span>0</span>
+            <span id="rainfall-scale-maximum">0</span>
+        </span>
+
+        <span>mm</span>
+    </div>
+
+    <ol
+        id="rainfall-bars"
+        class="rainfall-chart__bars"
+        aria-describedby="
+            rainfall-chart-description
+            rainfall-chart-note
+        "
+    ></ol>
+
+    <p
+        id="rainfall-chart-note"
+        class="rainfall-chart__note"
+    >
+        Bar lengths use the scale shown above. Hatched bars indicate
+        incomplete monthly data.
+    </p>
+</figure>
         </section>
 
         <section id="data-source" aria-labelledby="data-source-title">
