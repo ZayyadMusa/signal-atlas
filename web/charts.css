@@ -1,0 +1,238 @@
+.rainfall-chart,
+.temperature-chart {
+    grid-column: 1 / -1;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--line);
+}
+
+.rainfall-chart {
+    margin: 1rem 0 0;
+}
+
+.temperature-chart {
+    margin: 0;
+}
+
+.rainfall-chart[hidden],
+.temperature-chart[hidden] {
+    display: none;
+}
+
+.rainfall-chart__caption,
+.temperature-chart__caption {
+    display: grid;
+    grid-template-columns:
+        minmax(12rem, 0.7fr)
+        minmax(0, 1.3fr);
+    gap: 1rem 4rem;
+    margin-bottom: 2rem;
+}
+
+.rainfall-chart__caption h3,
+.rainfall-chart__caption p,
+.temperature-chart__caption h3,
+.temperature-chart__caption p {
+    margin: 0;
+}
+
+.rainfall-chart__caption p,
+.temperature-chart__caption p {
+    max-width: 42rem;
+    color: var(--muted);
+}
+
+/* Rainfall chart */
+
+.rainfall-chart__scale,
+.rainfall-chart__bar {
+    display: grid;
+    grid-template-columns: 3.5rem minmax(0, 1fr) 5.5rem;
+    align-items: center;
+    gap: 1rem;
+}
+
+.rainfall-chart__scale {
+    margin-bottom: 0.6rem;
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+.rainfall-chart__scale-values {
+    display: flex;
+    justify-content: space-between;
+}
+
+.rainfall-chart__scale > span:last-child {
+    text-align: right;
+}
+
+.rainfall-chart__bars {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.rainfall-chart__month {
+    color: var(--moss);
+    font-size: 0.76rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.rainfall-chart__track {
+    height: 1rem;
+    border-inline: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background-image: linear-gradient(
+        90deg,
+        var(--line) 1px,
+        transparent 1px
+    );
+    background-size: 25% 100%;
+}
+
+.rainfall-chart__fill {
+    display: block;
+    width: var(--rainfall-width);
+    height: 100%;
+    background: var(--rain);
+}
+
+.rainfall-chart__bar[data-partial="true"]
+.rainfall-chart__fill {
+    background: repeating-linear-gradient(
+        135deg,
+        var(--rain) 0 6px,
+        rgba(47, 100, 120, 0.35) 6px 10px
+    );
+}
+
+.rainfall-chart__value {
+    text-align: right;
+    font-size: 0.85rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.rainfall-chart__note {
+    max-width: 42rem;
+    margin: 1.5rem 0 0;
+    color: var(--muted);
+    font-size: 0.8rem;
+}
+
+/* Temperature chart */
+
+.temperature-chart__plot-frame {
+    overflow-x: auto;
+    border-block: 1px solid var(--line);
+}
+
+.temperature-chart__plot {
+    display: block;
+    width: 100%;
+    min-width: 42rem;
+    height: auto;
+}
+
+.temperature-chart__grid-line {
+    stroke: var(--line);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+}
+
+.temperature-chart__axis-label {
+    fill: var(--muted);
+    font-family: var(--body-font);
+    font-size: 16px;
+}
+
+.temperature-chart__line {
+    fill: none;
+    stroke: var(--ochre);
+    stroke-width: 3;
+    stroke-linecap: square;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+}
+
+.temperature-chart__point {
+    fill: var(--paper);
+    stroke: var(--ochre);
+    stroke-width: 3;
+    vector-effect: non-scaling-stroke;
+}
+
+.temperature-chart__point--partial {
+    stroke-dasharray: 3 2;
+}
+
+.temperature-chart__point:focus {
+    outline: none;
+    stroke: var(--moss);
+    stroke-width: 5;
+}
+
+.temperature-chart__details {
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--line);
+}
+
+.temperature-chart__details summary {
+    min-height: 2.75rem;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.temperature-chart__table-frame {
+    overflow-x: auto;
+}
+
+.temperature-chart__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+}
+
+.temperature-chart__table caption {
+    padding: 0.75rem 0;
+    color: var(--muted);
+    text-align: left;
+    font-size: 0.85rem;
+}
+
+.temperature-chart__table th,
+.temperature-chart__table td {
+    padding: 0.7rem;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+}
+
+.temperature-chart__table th:nth-child(2),
+.temperature-chart__table td:nth-child(2),
+.temperature-chart__table th:nth-child(3),
+.temperature-chart__table td:nth-child(3) {
+    text-align: right;
+}
+
+@media (max-width: 48rem) {
+    .rainfall-chart__caption,
+    .temperature-chart__caption {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .rainfall-chart__scale,
+    .rainfall-chart__bar {
+        grid-template-columns:
+            2.75rem
+            minmax(0, 1fr)
+            5rem;
+        gap: 0.65rem;
+    }
+}
