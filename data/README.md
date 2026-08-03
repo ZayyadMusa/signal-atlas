@@ -39,3 +39,17 @@ advice.
 The data was obtained from the NASA Langley Research Center Prediction
 Of Worldwide Energy Resources (POWER) project, funded through the NASA
 Earth Science Division.
+
+## Processed reports
+
+`scripts/process_power_data.py` reads the original daily files and creates
+smaller reports in `web/data/`.
+
+For each month:
+
+- Temperature is the average of the valid daily temperature values.
+- Rainfall is the sum of the valid daily rainfall values.
+- NASA POWER's `-999` fill value is treated as missing data.
+- Valid and missing day counts are included in the output.
+
+The processing script does not modify the original files in `data/raw/`.
