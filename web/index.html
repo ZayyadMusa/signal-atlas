@@ -123,6 +123,77 @@
         incomplete monthly data.
     </p>
 </figure>
+
+<figure
+    id="temperature-chart"
+    class="temperature-chart"
+    hidden
+>
+    <figcaption class="temperature-chart__caption">
+        <h3>Temperature through the year</h3>
+        <p id="temperature-chart-description">
+            Monthly average temperatures for the selected location.
+        </p>
+    </figcaption>
+
+    <div
+        class="temperature-chart__plot-frame"
+        tabindex="0"
+        aria-label="
+            Monthly temperature chart.
+            Scroll horizontally on smaller screens.
+        "
+    >
+        <svg
+            id="temperature-plot"
+            class="temperature-chart__plot"
+            viewBox="0 0 960 360"
+            role="img"
+            aria-labelledby="
+                temperature-plot-title
+                temperature-plot-description
+            "
+        >
+            <title id="temperature-plot-title">
+                Monthly average temperature
+            </title>
+
+            <desc id="temperature-plot-description">
+                Select a location to view its monthly temperatures.
+            </desc>
+
+            <g id="temperature-grid"></g>
+
+            <path
+                id="temperature-line"
+                class="temperature-chart__line"
+            ></path>
+
+            <g id="temperature-points"></g>
+            <g id="temperature-labels"></g>
+        </svg>
+    </div>
+
+    <details class="temperature-chart__details">
+        <summary>View monthly temperature values</summary>
+
+        <div class="temperature-chart__table-frame">
+            <table class="temperature-chart__table">
+                <caption>
+                    Monthly average temperature and data coverage
+                </caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Month</th>
+                        <th scope="col">Average</th>
+                        <th scope="col">Coverage</th>
+                    </tr>
+                </thead>
+                <tbody id="temperature-table-body"></tbody>
+            </table>
+        </div>
+    </details>
+</figure>
         </section>
 
         <section id="data-source" aria-labelledby="data-source-title">
