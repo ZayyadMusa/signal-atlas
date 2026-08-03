@@ -544,3 +544,134 @@ body > footer p {
         gap: 0.65rem;
     }
 }
+
+.temperature-chart {
+    grid-column: 1 / -1;
+    margin: 0;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--line);
+}
+
+.temperature-chart[hidden] {
+    display: none;
+}
+
+.temperature-chart__caption {
+    display: grid;
+    grid-template-columns:
+        minmax(12rem, 0.7fr)
+        minmax(0, 1.3fr);
+    gap: 1rem 4rem;
+    margin-bottom: 2rem;
+}
+
+.temperature-chart__caption h3,
+.temperature-chart__caption p {
+    margin: 0;
+}
+
+.temperature-chart__caption p {
+    max-width: 42rem;
+    color: var(--muted);
+}
+
+.temperature-chart__plot-frame {
+    overflow-x: auto;
+    border-block: 1px solid var(--line);
+}
+
+.temperature-chart__plot {
+    display: block;
+    width: 100%;
+    min-width: 42rem;
+    height: auto;
+}
+
+.temperature-chart__grid-line {
+    stroke: var(--line);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+}
+
+.temperature-chart__axis-label {
+    fill: var(--muted);
+    font-family: var(--body-font);
+    font-size: 16px;
+}
+
+.temperature-chart__line {
+    fill: none;
+    stroke: var(--ochre);
+    stroke-width: 3;
+    stroke-linecap: square;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+}
+
+.temperature-chart__point {
+    fill: var(--paper);
+    stroke: var(--ochre);
+    stroke-width: 3;
+    vector-effect: non-scaling-stroke;
+}
+
+.temperature-chart__point--partial {
+    stroke-dasharray: 3 2;
+}
+
+.temperature-chart__point:focus {
+    outline: none;
+    stroke: var(--moss);
+    stroke-width: 5;
+}
+
+.temperature-chart__details {
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--line);
+}
+
+.temperature-chart__details summary {
+    min-height: 2.75rem;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.temperature-chart__table-frame {
+    overflow-x: auto;
+}
+
+.temperature-chart__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+}
+
+.temperature-chart__table caption {
+    padding: 0.75rem 0;
+    color: var(--muted);
+    text-align: left;
+    font-size: 0.85rem;
+}
+
+.temperature-chart__table th,
+.temperature-chart__table td {
+    padding: 0.7rem;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+}
+
+.temperature-chart__table th:nth-child(2),
+.temperature-chart__table td:nth-child(2),
+.temperature-chart__table th:nth-child(3),
+.temperature-chart__table td:nth-child(3) {
+    text-align: right;
+}
+
+@media (max-width: 48rem) {
+    .temperature-chart__caption {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+}
