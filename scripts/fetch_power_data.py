@@ -7,24 +7,44 @@ from urllib.request import Request, urlopen
 
 BASE_URL = "https://power.larc.nasa.gov/api/temporal/daily/point"
 
-LOCATION = {
-    "name": "Ibadan",
-    "slug": "ibadan",
-    "latitude": 7.3775,
-    "longitude": 3.9470,
-}
+LOCATIONS = (
+    {
+        "name": "Abuja",
+        "slug": "abuja",
+        "latitude": 9.0765,
+        "longitude": 7.3986,
+    },
+    {
+        "name": "Kaduna",
+        "slug": "kaduna",
+        "latitude": 10.5105,
+        "longitude": 7.4165,
+    },
+    {
+        "name": "Lagos",
+        "slug": "lagos",
+        "latitude": 6.5244,
+        "longitude": 3.3792,
+    },
+    {
+        "name": "Port Harcourt",
+        "slug": "port-harcourt",
+        "latitude": 4.8156,
+        "longitude": 7.0498,
+    },
+)
 
 YEAR = 2025
 PARAMETERS = ("T2M", "PRECTOTCORR")
 
 
-def build_request_url():
+def build_request_url(location):
     query = urlencode(
         {
             "parameters": ",".join(PARAMETERS),
             "community": "AG",
-            "longitude": LOCATION["longitude"],
-            "latitude": LOCATION["latitude"],
+            "longitude": location["longitude"],
+            "latitude": location["latitude"],
             "start": f"{YEAR}0101",
             "end": f"{YEAR}1231",
             "format": "JSON",
@@ -33,7 +53,6 @@ def build_request_url():
     )
 
     return f"{BASE_URL}?{query}"
-
 
 def download_data(url):
     request = Request(
@@ -93,14 +112,14 @@ def validate_data(payload):
     return parameter_data
 
 
-def save_data(payload):
+def save_data(payload, location):
     project_root = Path(__file__).resolve().parents[1]
     output_directory = project_root / "data" / "raw"
     output_directory.mkdir(parents=True, exist_ok=True)
 
     output_path = (
         output_directory
-        / f"{LOCATION['slug']}-{YEAR}.json"
+        / f"{location['slug']}-{YEAR}.json"
     )
 
     with output_path.open("w", encoding="utf-8") as output_file:
@@ -111,21 +130,22 @@ def save_data(payload):
 
 
 def main():
-    request_url = build_request_url()
+    for location in LOCATIONS:
+        request_url = build_request_url(location)
 
-    print(f"Requesting NASA POWER data for {LOCATION['name']}...")
+        print(f"Requesting NASA POWER data for {location['name']}...")
 
-    payload = download_data(request_url)
-    parameter_data = validate_data(payload)
-    output_path = save_data(payload)
+        payload = download_data(request_url)
+        parameter_data = validate_data(payload)
+        output_path = save_data(payload, location)
 
-    temperature_days = len(parameter_data["T2M"])
-    rainfall_days = len(parameter_data["PRECTOTCORR"])
+        temperature_days = len(parameter_data["T2M"])
+        rainfall_days = len(parameter_data["PRECTOTCORR"])
 
-    print(f"Temperature records: {temperature_days}")
-    print(f"Rainfall records: {rainfall_days}")
-    print(f"Saved data to: {output_path}")
-
+        print(f"Temperature records: {temperature_days}")
+        print(f"Rainfall records: {rainfall_days}")
+        print(f"Saved data to: {output_path}")
+        print()
 
 if __name__ == "__main__":
     main()
