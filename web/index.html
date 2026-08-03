@@ -74,16 +74,59 @@
 </section>
             </div>
 
-            <aside aria-labelledby="report-details-title">
-                <h3 id="report-details-title">What each report includes</h3>
-                <ul>
-                    <li>The location and period covered.</li>
-                    <li>A simple explanation of the conditions.</li>
-                    <li>The measurement units.</li>
-                    <li>Missing-data notices when necessary.</li>
-                    <li>The source of the data.</li>
-                </ul>
-            </aside>
+            <aside
+    id="report-details"
+    aria-labelledby="report-details-title"
+>
+    <h3 id="report-details-title">Report details</h3>
+
+    <p id="report-details-status">
+        Choose a location to see its period, coordinates and source.
+    </p>
+
+    <dl
+        id="report-metadata"
+        class="report-metadata"
+        hidden
+    >
+        <div>
+            <dt>Period</dt>
+            <dd id="report-period"></dd>
+        </div>
+
+        <div>
+            <dt>Coordinates</dt>
+            <dd id="report-coordinates"></dd>
+        </div>
+
+        <div>
+            <dt>Elevation</dt>
+            <dd id="report-elevation"></dd>
+        </div>
+
+        <div>
+            <dt>Measurements</dt>
+            <dd id="report-measurements"></dd>
+        </div>
+
+        <div>
+            <dt>Source</dt>
+            <dd id="report-source"></dd>
+        </div>
+
+        <div>
+            <dt>Time standard</dt>
+            <dd id="report-time-standard"></dd>
+        </div>
+
+        <div>
+            <dt>Coverage</dt>
+            <dd id="report-coverage"></dd>
+        </div>
+    </dl>
+
+    <p id="report-limitation" hidden></p>
+</aside>
             <figure
     id="rainfall-chart"
     class="rainfall-chart"

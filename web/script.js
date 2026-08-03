@@ -21,6 +21,27 @@ const rainfallSummary =
 const temperatureSummary =
     document.getElementById("temperature-summary");
 
+const reportDetailsStatus =
+    document.getElementById("report-details-status");
+const reportMetadata =
+    document.getElementById("report-metadata");
+const reportPeriod =
+    document.getElementById("report-period");
+const reportCoordinates =
+    document.getElementById("report-coordinates");
+const reportElevation =
+    document.getElementById("report-elevation");
+const reportMeasurements =
+    document.getElementById("report-measurements");
+const reportSource =
+    document.getElementById("report-source");
+const reportTimeStandard =
+    document.getElementById("report-time-standard");
+const reportCoverage =
+    document.getElementById("report-coverage");
+const reportLimitation =
+    document.getElementById("report-limitation");
+
 const RAINFALL_PLACEHOLDER =
     "Monthly rainfall totals will appear here in millimetres.";
 
@@ -34,6 +55,13 @@ const annualRainfallFormatter = new Intl.NumberFormat("en-NG", {
 const temperatureFormatter = new Intl.NumberFormat("en-NG", {
     minimumFractionDigits: 1,
     maximumFractionDigits: 1,
+});
+
+const dateFormatter = new Intl.DateTimeFormat("en-NG", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
 });
 
 viewConditionsButton.addEventListener(
@@ -65,6 +93,10 @@ function handleLocationChange() {
     rainfallSummary.textContent = RAINFALL_PLACEHOLDER;
     temperatureSummary.textContent = TEMPERATURE_PLACEHOLDER;
 
+    showReportDetailsPlaceholder(
+        "Load the report to see its source and coverage details."
+    );
+
     hideCharts();
 }
 
@@ -76,6 +108,10 @@ function resetReport() {
 
     rainfallSummary.textContent = RAINFALL_PLACEHOLDER;
     temperatureSummary.textContent = TEMPERATURE_PLACEHOLDER;
+
+    showReportDetailsPlaceholder(
+        "Choose a location to see its period, coordinates and source."
+    );
 
     hideCharts();
 }
@@ -142,6 +178,10 @@ function showLoadingState(locationName) {
 
     temperatureSummary.textContent =
         "Loading temperature data...";
+
+    showReportDetailsPlaceholder(
+        `Loading report details for ${locationName}...`
+    );
 
     hideCharts();
 
@@ -219,8 +259,77 @@ function showReport(report) {
             `${missingRainfallDays} rainfall.`;
     }
 
+    showReportDetails(report, expectedDays);
     showRainfallChart(report);
     showTemperatureChart(report);
+}
+
+function showReportDetails(report, expectedDays) {
+    const location = report.location;
+    const period = report.period;
+    const source = report.source;
+    const summary = report.annual_summary;
+
+    reportPeriod.textContent =
+        `${formatReportDate(period.start)}–` +
+        `${formatReportDate(period.end)}`;
+
+    reportCoordinates.textContent =
+        `${formatCoordinate(location.latitude, "N", "S")}, ` +
+        `${formatCoordinate(location.longitude, "E", "W")}`;
+
+    reportElevation.textContent =
+        location.elevation_m === null
+            ? "Not available"
+            : `${Math.round(location.elevation_m)} m above sea level`;
+
+    reportMeasurements.textContent =
+        "Monthly average temperature (°C) and " +
+        "monthly rainfall total (mm)";
+
+    const datasets = source.datasets.join(", ");
+
+    reportSource.textContent =
+        `${source.provider}; ${datasets}; ` +
+        `${source.api_name} ${source.api_version}`;
+
+    reportTimeStandard.textContent =
+        source.time_standard === "LST"
+            ? "Local Solar Time (LST)"
+            : source.time_standard;
+
+    reportCoverage.textContent =
+        `${summary.temperature_days} of ${expectedDays} temperature ` +
+        `days and ${summary.rainfall_days} of ${expectedDays} ` +
+        "rainfall days";
+
+    reportLimitation.textContent =
+        "These are regional gridded estimates for the area around " +
+        `${location.name}, not measurements from an individual farm ` +
+        "or weather station.";
+
+    reportDetailsStatus.hidden = true;
+    reportMetadata.hidden = false;
+    reportLimitation.hidden = false;
+}
+
+function showReportDetailsPlaceholder(message) {
+    reportDetailsStatus.textContent = message;
+    reportDetailsStatus.hidden = false;
+    reportMetadata.hidden = true;
+    reportLimitation.hidden = true;
+}
+
+function formatReportDate(dateText) {
+    return dateFormatter.format(
+        new Date(`${dateText}T00:00:00Z`)
+    );
+}
+
+function formatCoordinate(value, positive, negative) {
+    const direction = value >= 0 ? positive : negative;
+
+    return `${Math.abs(value).toFixed(2)}° ${direction}`;
 }
 
 function hideCharts() {
@@ -241,6 +350,10 @@ function showErrorState(locationName) {
     dataStatus.textContent =
         "Signal Atlas could not load this report. " +
         "Check your connection and try again.";
+
+    showReportDetailsPlaceholder(
+        "Report details could not be loaded."
+    );
 
     hideCharts();
 }

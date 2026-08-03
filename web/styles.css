@@ -318,13 +318,42 @@ main > section:first-child > a::after {
     font-size: 1.2rem;
 }
 
-#results ul {
+#report-details-status {
     margin: 0;
-    padding-left: 1.2rem;
+    color: var(--muted);
 }
 
-#results li + li {
-    margin-top: 0.55rem;
+.report-metadata {
+    margin: 0;
+}
+
+.report-metadata > div {
+    padding: 0.8rem 0;
+    border-top: 1px solid var(--line);
+}
+
+.report-metadata > div:first-child {
+    border-top: 0;
+}
+
+.report-metadata dt {
+    color: var(--moss);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.report-metadata dd {
+    margin: 0.15rem 0 0;
+}
+
+#report-limitation {
+    margin: 1.25rem 0 0;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.85rem;
 }
 
 #data-source {
