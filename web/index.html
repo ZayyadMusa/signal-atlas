@@ -69,7 +69,14 @@
                 Choose a location to prepare its report.
             </p>
 
-            <div>
+            <div id="report-actions" class="report-actions" hidden>
+                <button id="copy-report-link" type="button">
+                    Copy report link
+                </button>
+                <span id="copy-link-status" role="status" aria-live="polite"></span>
+            </div>
+
+            <div class="report-summaries">
                 <section aria-labelledby="rainfall-title">
     <h3 id="rainfall-title">Rainfall</h3>
     <p id="rainfall-summary">

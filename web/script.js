@@ -15,6 +15,11 @@ const viewConditionsButton =
 const resultsSection = document.getElementById("results");
 const resultsTitle = document.getElementById("results-title");
 const dataStatus = document.getElementById("data-status");
+const reportActions = document.getElementById("report-actions");
+const copyReportLinkButton =
+    document.getElementById("copy-report-link");
+const copyLinkStatus =
+    document.getElementById("copy-link-status");
 const rainfallSummary =
     document.getElementById("rainfall-summary");
 const temperatureSummary =
@@ -86,6 +91,8 @@ yearSelect.addEventListener(
     "change",
     handleLocationChange
 );
+
+copyReportLinkButton.addEventListener("click", copyReportLink);
 
 function handleLocationChange() {
     if (!locationSelect.value) {
@@ -346,6 +353,24 @@ function showReport(report) {
     showReportDetails(report, expectedDays);
     showRainfallChart(report);
     showTemperatureChart(report);
+    reportActions.hidden = false;
+    copyLinkStatus.textContent = "";
+}
+
+async function copyReportLink() {
+    copyReportLinkButton.disabled = true;
+    copyLinkStatus.textContent = "Copying link...";
+
+    try {
+        await navigator.clipboard.writeText(window.location.href);
+        copyLinkStatus.textContent = "Report link copied.";
+    } catch (error) {
+        console.error("Could not copy the report link.", error);
+        copyLinkStatus.textContent =
+            "The link could not be copied. Copy it from the address bar.";
+    } finally {
+        copyReportLinkButton.disabled = false;
+    }
 }
 
 async function loadYearComparison(report, locationSlug, reportYear) {
@@ -441,6 +466,8 @@ function showReportDetailsPlaceholder(message) {
     reportMetadata.hidden = true;
     reportLimitation.hidden = true;
     yearComparison.hidden = true;
+    reportActions.hidden = true;
+    copyLinkStatus.textContent = "";
 }
 
 function formatReportDate(dateText) {

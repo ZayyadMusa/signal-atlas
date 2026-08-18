@@ -280,22 +280,61 @@ main > section:first-child > a::after {
     color: var(--muted);
 }
 
-#results > div {
+.report-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    margin-top: -0.75rem;
+}
+
+.report-actions[hidden] {
+    display: none;
+}
+
+.report-actions button {
+    min-height: 2.75rem;
+    padding: 0.55rem 1rem;
+    border: 1px solid var(--moss);
+    border-radius: 0;
+    background: transparent;
+    color: var(--moss);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.report-actions button:hover {
+    background: var(--moss);
+    color: var(--surface);
+}
+
+.report-actions button:disabled {
+    cursor: wait;
+    opacity: 0.65;
+}
+
+#copy-link-status {
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+#results > .report-summaries {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     border-block: 1px solid var(--line);
 }
 
-#results > div > section {
+#results > .report-summaries > section {
     padding: 2rem 2rem 2rem 0;
 }
 
-#results > div > section + section {
+#results > .report-summaries > section + section {
     padding-left: 2rem;
     border-left: 1px solid var(--line);
 }
 
-#results > div p {
+#results > .report-summaries p {
     margin: 0;
     color: var(--muted);
 }
@@ -431,7 +470,7 @@ body > footer p {
         grid-template-columns: 1fr;
     }
 
-    #results > div,
+    #results > .report-summaries,
     #results aside,
     #data-source h2,
     #data-source p {
@@ -446,15 +485,15 @@ body > footer p {
         width: 100%;
     }
 
-    #results > div {
+    #results > .report-summaries {
         grid-template-columns: 1fr;
     }
 
-    #results > div > section {
+    #results > .report-summaries > section {
         padding: 1.75rem 0;
     }
 
-    #results > div > section + section {
+    #results > .report-summaries > section + section {
         padding-left: 0;
         border-top: 1px solid var(--line);
         border-left: 0;

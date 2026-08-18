@@ -61,6 +61,43 @@ test("keeps the main report when the comparison cannot load", async ({ page }) =
   await expect(page.locator("#rainfall-comparison")).toHaveText("Not available");
 });
 
+test("copies the current report link", async ({ page }) => {
+  let copiedLink = "";
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, "clipboard", {
+      value: {
+        writeText: async (value) => {
+          window.copiedReportLink = value;
+        },
+      },
+      configurable: true,
+    });
+  });
+  await page.goto("/?location=lagos&year=2025");
+  await page.getByRole("button", { name: "Copy report link" }).click();
+  copiedLink = await page.evaluate(() => window.copiedReportLink);
+
+  expect(copiedLink).toMatch(/\?location=lagos&year=2025$/);
+  await expect(page.locator("#copy-link-status")).toHaveText(
+    "Report link copied."
+  );
+});
+
+test("explains how to recover when copying fails", async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, "clipboard", {
+      value: { writeText: async () => { throw new Error("Denied"); } },
+      configurable: true,
+    });
+  });
+  await page.goto("/?location=abuja&year=2024");
+  await page.getByRole("button", { name: "Copy report link" }).click();
+
+  await expect(page.locator("#copy-link-status")).toContainText(
+    "Copy it from the address bar"
+  );
+});
+
 test("loads a leap-year report", async ({ page }) => {
   await page.goto("/");
   await page.locator("#location").selectOption("kaduna");
