@@ -98,6 +98,24 @@ test("explains how to recover when copying fails", async ({ page }) => {
   );
 });
 
+test("downloads the selected report as monthly CSV", async ({ page }) => {
+  await page.goto("/?location=kaduna&year=2024");
+  const downloadPromise = page.waitForEvent("download");
+  await page.getByRole("button", { name: "Download monthly CSV" }).click();
+  const download = await downloadPromise;
+
+  expect(download.suggestedFilename()).toBe(
+    "kaduna-2024-monthly-climate.csv"
+  );
+  const stream = await download.createReadStream();
+  let csv = "";
+  for await (const chunk of stream) csv += chunk.toString("utf8");
+
+  expect(csv).toContain("Month,Average temperature (°C)");
+  expect(csv).toContain("January");
+  expect(csv.trim().split(/\r?\n/)).toHaveLength(13);
+});
+
 test("loads a leap-year report", async ({ page }) => {
   await page.goto("/");
   await page.locator("#location").selectOption("kaduna");

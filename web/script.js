@@ -18,6 +18,8 @@ const dataStatus = document.getElementById("data-status");
 const reportActions = document.getElementById("report-actions");
 const copyReportLinkButton =
     document.getElementById("copy-report-link");
+const downloadReportCsvButton =
+    document.getElementById("download-report-csv");
 const copyLinkStatus =
     document.getElementById("copy-link-status");
 const rainfallSummary =
@@ -72,6 +74,8 @@ const dateFormatter = new Intl.DateTimeFormat("en-NG", {
     timeZone: "UTC",
 });
 
+let currentReport = null;
+
 viewConditionsButton.addEventListener(
     "click",
     () => loadSelectedReport()
@@ -93,6 +97,7 @@ yearSelect.addEventListener(
 );
 
 copyReportLinkButton.addEventListener("click", copyReportLink);
+downloadReportCsvButton.addEventListener("click", downloadReportCsv);
 
 function handleLocationChange() {
     if (!locationSelect.value) {
@@ -282,6 +287,7 @@ function showLoadingState(locationName, reportYear) {
 }
 
 function showReport(report) {
+    currentReport = report;
     const location = report.location;
     const period = report.period;
     const summary = report.annual_summary;
@@ -355,6 +361,53 @@ function showReport(report) {
     showTemperatureChart(report);
     reportActions.hidden = false;
     copyLinkStatus.textContent = "";
+}
+
+function downloadReportCsv() {
+    if (!currentReport) return;
+
+    const headers = [
+        "Month",
+        "Average temperature (°C)",
+        "Temperature valid days",
+        "Temperature missing days",
+        "Total rainfall (mm)",
+        "Rainfall valid days",
+        "Rainfall missing days",
+    ];
+    const rows = currentReport.months.map((month) => [
+        month.name,
+        month.temperature.average_c ?? "",
+        month.temperature.valid_days,
+        month.temperature.missing_days,
+        month.rainfall.total_mm ?? "",
+        month.rainfall.valid_days,
+        month.rainfall.missing_days,
+    ]);
+    const csv = [headers, ...rows]
+        .map((row) => row.map(escapeCsvValue).join(","))
+        .join("\r\n");
+    const blob = new Blob(["\uFEFF", csv], {
+        type: "text/csv;charset=utf-8",
+    });
+    const downloadUrl = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = downloadUrl;
+    link.download =
+        `${currentReport.location.slug}-${currentReport.period.year}` +
+        "-monthly-climate.csv";
+    document.body.append(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(downloadUrl);
+}
+
+function escapeCsvValue(value) {
+    const text = String(value);
+    return /[",\r\n]/.test(text)
+        ? `"${text.replaceAll('"', '""')}"`
+        : text;
 }
 
 async function copyReportLink() {
@@ -468,6 +521,7 @@ function showReportDetailsPlaceholder(message) {
     yearComparison.hidden = true;
     reportActions.hidden = true;
     copyLinkStatus.textContent = "";
+    currentReport = null;
 }
 
 function formatReportDate(dateText) {
