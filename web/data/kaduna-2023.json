@@ -1,0 +1,209 @@
+{
+  "location": {
+    "name": "Kaduna",
+    "slug": "kaduna",
+    "latitude": 10.511,
+    "longitude": 7.417,
+    "elevation_m": 623.54
+  },
+  "period": {
+    "year": 2023,
+    "start": "2023-01-01",
+    "end": "2023-12-31"
+  },
+  "annual_summary": {
+    "average_temperature_c": 24.0,
+    "total_rainfall_mm": 2465.41,
+    "temperature_days": 365,
+    "rainfall_days": 365
+  },
+  "source": {
+    "provider": "NASA POWER",
+    "api_name": "POWER Daily API",
+    "api_version": "v2.9.6",
+    "datasets": [
+      "MERRA2"
+    ],
+    "time_standard": "LST",
+    "parameters": {
+      "T2M": {
+        "units": "C",
+        "longname": "Temperature at 2 Meters"
+      },
+      "PRECTOTCORR": {
+        "units": "mm/day",
+        "longname": "Precipitation Corrected"
+      }
+    }
+  },
+  "months": [
+    {
+      "number": 1,
+      "name": "January",
+      "temperature": {
+        "average_c": 20.79,
+        "valid_days": 31,
+        "missing_days": 0
+      },
+      "rainfall": {
+        "total_mm": 0.0,
+        "valid_days": 31,
+        "missing_days": 0
+      }
+    },
+    {
+      "number": 2,
+      "name": "February",
+      "temperature": {
+        "average_c": 23.54,
+        "valid_days": 28,
+        "missing_days": 0
+      },
+      "rainfall": {
+        "total_mm": 0.0,
+        "valid_days": 28,
+        "missing_days": 0
+      }
+    },
+    {
+      "number": 3,
+      "name": "March",
+      "temperature": {
+        "average_c": 25.17,
+        "valid_days": 31,
+        "missing_days": 0
+      },
+      "rainfall": {
+        "total_mm": 339.45,
+        "valid_days": 31,
+        "missing_days": 0
+      }
+    },
+    {
+      "number": 4,
+      "name": "April",
+      "temperature": {
+        "average_c": 25.25,
+        "valid_days": 30,
+        "missing_days": 0
+      },
+      "rainfall": {
+        "total_mm": 464.84,
+        "valid_days": 30,
+        "missing_days": 0
+      }
+    },
+    {
+      "number": 5,
+      "name": "May",
+      "temperature": {
+        "average_c": 25.58,
+        "valid_days": 31,
+        "missing_days": 0
+      },
+      "rainfall": {
+        "total_mm": 952.22,
+        "valid_days": 31,
+        "missing_days": 0
+      }
+    },
+    {
+      "number": 6,
+      "name": "June",
+      "temperature": {
+        "average_c": 24.48,
+        "valid_days": 30,
+        "missing_days": 0
+      },
+      "rainfall": {
+        "total_mm": 126.86,
+        "valid_days": 30,
+        "missing_days": 0
+      }
+    },
+    {
+      "number": 7,
+      "name": "July",
+      "temperature": {
+        "average_c": 24.76,
+        "valid_days": 31,
+        "missing_days": 0
+      },
+      "rainfall": {
+        "total_mm": 164.85,
+        "valid_days": 31,
+        "missing_days": 0
+      }
+    },
+    {
+      "number": 8,
+      "name": "August",
+      "temperature": {
+        "average_c": 24.1,
+        "valid_days": 31,
+        "missing_days": 0
+      },
+      "rainfall": {
+        "total_mm": 176.76,
+        "valid_days": 31,
+        "missing_days": 0
+      }
+    },
+    {
+      "number": 9,
+      "name": "September",
+      "temperature": {
+        "average_c": 24.6,
+        "valid_days": 30,
+        "missing_days": 0
+      },
+      "rainfall": {
+        "total_mm": 192.27,
+        "valid_days": 30,
+        "missing_days": 0
+      }
+    },
+    {
+      "number": 10,
+      "name": "October",
+      "temperature": {
+        "average_c": 24.91,
+        "valid_days": 31,
+        "missing_days": 0
+      },
+      "rainfall": {
+        "total_mm": 46.11,
+        "valid_days": 31,
+        "missing_days": 0
+      }
+    },
+    {
+      "number": 11,
+      "name": "November",
+      "temperature": {
+        "average_c": 23.82,
+        "valid_days": 30,
+        "missing_days": 0
+      },
+      "rainfall": {
+        "total_mm": 2.05,
+        "valid_days": 30,
+        "missing_days": 0
+      }
+    },
+    {
+      "number": 12,
+      "name": "December",
+      "temperature": {
+        "average_c": 21.04,
+        "valid_days": 31,
+        "missing_days": 0
+      },
+      "rainfall": {
+        "total_mm": 0.0,
+        "valid_days": 31,
+        "missing_days": 0
+      }
+    }
+  ]
+}
