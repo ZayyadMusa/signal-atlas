@@ -40,6 +40,10 @@ const reportCoverage =
     document.getElementById("report-coverage");
 const reportLimitation =
     document.getElementById("report-limitation");
+const yearComparison = document.getElementById("year-comparison");
+const yearComparisonDescription = document.getElementById("year-comparison-description");
+const rainfallComparison = document.getElementById("rainfall-comparison");
+const temperatureComparison = document.getElementById("temperature-comparison");
 
 const RAINFALL_PLACEHOLDER =
     "Monthly rainfall totals will appear here in millimetres.";
@@ -167,6 +171,7 @@ async function loadSelectedReport({
         const report = await response.json();
 
         showReport(report);
+        await loadYearComparison(report, locationSlug, reportYear);
 
         if (updateHistory) {
             updateReportUrl(locationSlug, reportYear);
@@ -343,6 +348,44 @@ function showReport(report) {
     showTemperatureChart(report);
 }
 
+async function loadYearComparison(report, locationSlug, reportYear) {
+    const comparisonYear = reportYear === "2025" ? "2024" : "2025";
+
+    yearComparison.hidden = false;
+    yearComparisonDescription.textContent = `Comparing ${reportYear} with ${comparisonYear} for ${report.location.name}.`;
+    rainfallComparison.textContent = "Loading comparison...";
+    temperatureComparison.textContent = "Loading comparison...";
+
+    try {
+        const response = await fetch(`data/${locationSlug}-${comparisonYear}.json`);
+        if (!response.ok) throw new Error(`The comparison request returned ${response.status}.`);
+        showYearComparison(report, await response.json());
+    } catch (error) {
+        console.error(`Could not load the ${comparisonYear} comparison.`, error);
+        yearComparisonDescription.textContent = `The ${comparisonYear} comparison could not be loaded. The ${reportYear} report above is still available.`;
+        rainfallComparison.textContent = "Not available";
+        temperatureComparison.textContent = "Not available";
+    }
+}
+
+function showYearComparison(report, comparisonReport) {
+    const reportYear = report.period.year;
+    const comparisonYear = comparisonReport.period.year;
+    const rainfallDifference = report.annual_summary.total_rainfall_mm - comparisonReport.annual_summary.total_rainfall_mm;
+    const temperatureDifference = report.annual_summary.average_temperature_c - comparisonReport.annual_summary.average_temperature_c;
+
+    yearComparisonDescription.textContent = `${reportYear} compared with ${comparisonYear} for ${report.location.name}. These differences describe the two historical years; they are not a forecast.`;
+    rainfallComparison.textContent = formatDifference(rainfallDifference, "mm", 0);
+    temperatureComparison.textContent = formatDifference(temperatureDifference, "°C", 1);
+}
+
+function formatDifference(value, unit, fractionDigits) {
+    const formatter = new Intl.NumberFormat("en-NG", { minimumFractionDigits: fractionDigits, maximumFractionDigits: fractionDigits });
+    const magnitude = formatter.format(Math.abs(value));
+    if (value === 0) return `No difference (${magnitude} ${unit})`;
+    return `${magnitude} ${unit} ${value > 0 ? "higher" : "lower"}`;
+}
+
 function showReportDetails(report, expectedDays) {
     const location = report.location;
     const period = report.period;
@@ -397,6 +440,7 @@ function showReportDetailsPlaceholder(message) {
     reportDetailsStatus.hidden = false;
     reportMetadata.hidden = true;
     reportLimitation.hidden = true;
+    yearComparison.hidden = true;
 }
 
 function formatReportDate(dateText) {

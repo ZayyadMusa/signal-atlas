@@ -40,7 +40,25 @@ test("loads a complete location report", async ({ page }) => {
   await expect(page.locator("#temperature-chart")).toBeVisible();
   await expect(page.locator("#temperature-points circle")).toHaveCount(12);
   await expect(page.locator("#temperature-table-body tr")).toHaveCount(12);
+  await expect(page.locator("#year-comparison")).toBeVisible();
+  await expect(page.locator("#year-comparison-description")).toContainText(
+    "2025 compared with 2024"
+  );
+  await expect(page.locator("#rainfall-comparison")).toContainText("mm");
+  await expect(page.locator("#temperature-comparison")).toContainText("°C");
   await expect(page).toHaveURL(/\?location=lagos&year=2025$/);
+});
+
+test("keeps the main report when the comparison cannot load", async ({ page }) => {
+  await page.route("**/data/abuja-2024.json", (route) => route.abort());
+  await page.goto("/");
+  await page.locator("#location").selectOption("abuja");
+  await page.getByRole("button", { name: "View conditions" }).click();
+
+  await expect(page.getByRole("heading", { name: "Abuja report" })).toBeVisible();
+  await expect(page.locator("#rainfall-chart")).toBeVisible();
+  await expect(page.locator("#year-comparison-description")).toContainText("comparison could not be loaded");
+  await expect(page.locator("#rainfall-comparison")).toHaveText("Not available");
 });
 
 test("loads a leap-year report", async ({ page }) => {

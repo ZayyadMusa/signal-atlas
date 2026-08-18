@@ -364,6 +364,27 @@ main > section:first-child > a::after {
     font-size: 0.85rem;
 }
 
+.year-comparison {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(12rem, 0.7fr) minmax(0, 1.3fr);
+    gap: 1.5rem 4rem;
+    padding-block: 2.5rem;
+    border-block: 1px solid var(--line);
+}
+
+.year-comparison[hidden] { display: none; }
+.year-comparison h3,
+.year-comparison p,
+.year-comparison dl { margin: 0; }
+.year-comparison p { max-width: 38rem; color: var(--muted); }
+.year-comparison__values { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem 2rem; }
+.year-comparison__values > div { padding-top: 0.75rem; border-top: 3px solid var(--line); }
+.year-comparison__values > div:first-child { border-color: var(--rain); }
+.year-comparison__values > div:last-child { border-color: var(--ochre); }
+.year-comparison__values dt { color: var(--muted); font-size: 0.8rem; font-weight: 600; }
+.year-comparison__values dd { margin: 0.25rem 0 0; font-family: var(--heading-font); font-size: 1.45rem; font-variant-numeric: tabular-nums; }
+
 #data-source {
     display: grid;
     grid-template-columns: minmax(12rem, 0.7fr) minmax(0, 1.3fr);
@@ -448,6 +469,13 @@ body > footer p {
     #data-source h2 {
         grid-row: auto;
     }
+
+    .year-comparison,
+    .year-comparison__values {
+        grid-template-columns: 1fr;
+    }
+
+    .year-comparison { gap: 1.25rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
