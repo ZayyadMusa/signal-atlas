@@ -80,17 +80,17 @@ See the [NASA POWER data-service guidance](https://power.larc.nasa.gov/docs/serv
 
 ## Project structure
 
-- `data/raw/` â€” original NASA POWER responses
-- `scripts/fetch_power_data.py` â€” downloads daily data
-- `scripts/process_power_data.py` â€” creates monthly reports
-- `web/data/` â€” processed reports used by the website
-- `web/index.html` â€” page content and report structure
-- `web/styles.css` â€” page foundation and layout
-- `web/charts.css` â€” rainfall and temperature chart styles
-- `web/script.js` â€” location selection, loading and report state
-- `web/rainfall-chart.js` â€” monthly rainfall rendering
-- `web/temperature-chart.js` â€” temperature plot and data table
-- `DESIGN.md` â€” visual and interface decisions
+- `data/raw/` original NASA POWER responses
+- `scripts/fetch_power_data.py` downloads daily data
+- `scripts/process_power_data.py` creates monthly reports
+- `web/data/` processed reports used by the website
+- `web/index.html` page content and report structure
+- `web/styles.css` page foundation and layout
+- `web/charts.css` rainfall and temperature chart styles
+- `web/script.js` location selection, loading and report state
+- `web/rainfall-chart.js` monthly rainfall rendering
+- `web/temperature-chart.js` temperature plot and data table
+- `DESIGN.md` visual and interface decisions
 
 ## Run the website locally
 
