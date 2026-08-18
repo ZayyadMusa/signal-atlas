@@ -15,6 +15,7 @@ Signal Atlas currently allows users to:
 - View estimated total rainfall and average temperature for the selected year.
 - Compare annual rainfall and temperature with the other available year.
 - Copy a direct link to the selected location and year report.
+- Download the selected report's monthly measurements and coverage as CSV.
 - Explore monthly rainfall using a bar chart.
 - Follow monthly temperature changes using a line chart.
 - Open a table containing the exact monthly temperature values.
