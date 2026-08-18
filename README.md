@@ -13,6 +13,7 @@ Signal Atlas currently allows users to:
 - Select a Nigerian location.
 - Choose between 2024 and 2025 historical reports.
 - View estimated total rainfall and average temperature for the selected year.
+- Compare annual rainfall and temperature with the other available year.
 - Explore monthly rainfall using a bar chart.
 - Follow monthly temperature changes using a line chart.
 - Open a table containing the exact monthly temperature values.
@@ -191,8 +192,6 @@ Possible later additions include:
 - A backend for requesting and caching coordinate-based reports
 - Weekly and daily detail views
 - More locations and additional years
-- Browser-level tests
-- Deployment as a public website
 
 Current-location and address support will be added after the fixed-location data pipeline and report have been fully tested.
 
@@ -213,7 +212,7 @@ Through this project, I am developing practical skills in:
 
 **Working historical-data report**
 
-The data download and processing pipeline is working and covered by automated unit tests. The deployed website can load and explain 2024 and 2025 monthly rainfall and temperature data for four locations, with browser coverage at desktop and mobile sizes. Development is continuing incrementally so that each part is understood before more complexity is added.
+The data download and processing pipeline is working and covered by automated unit tests. The deployed website can load, compare and explain 2024 and 2025 monthly rainfall and temperature data for four locations, with browser coverage at desktop and mobile sizes. Development is continuing incrementally so that each part is understood before more complexity is added.
 
 ## Licence
 
