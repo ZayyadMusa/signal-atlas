@@ -13,12 +13,12 @@ The files in `raw/` are unmodified responses from the NASA POWER Daily API.
 
 ## Coverage
 
-- Period: 1 January–31 December 2025
+- Periods: 1 January–31 December 2024 and 1 January–31 December 2025
 - Time standard: Local Solar Time
 - Community: Agroclimatology
 - API version: v2.9.6
 - Source: MERRA-2
-- Accessed: 3 August 2026
+- Accessed: 3 August 2026 (2025 data) and 18 August 2026 (2024 data)
 
 ## Measurements
 

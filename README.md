@@ -11,7 +11,8 @@ I am building Signal Atlas because I want to contribute to agriculture and envir
 Signal Atlas currently allows users to:
 
 - Select a Nigerian location.
-- View its estimated total rainfall and average temperature for 2025.
+- Choose between 2024 and 2025 historical reports.
+- View estimated total rainfall and average temperature for the selected year.
 - Explore monthly rainfall using a bar chart.
 - Follow monthly temperature changes using a line chart.
 - Open a table containing the exact monthly temperature values.
@@ -34,7 +35,7 @@ Each location represents a regional point. It does not represent every address, 
 
 Signal Atlas uses historical meteorological data from the [NASA POWER Daily API](https://power.larc.nasa.gov/docs/services/api/temporal/daily/).
 
-The current dataset covers 1 January to 31 December 2025 and contains:
+The current datasets cover 1 January 2024 to 31 December 2025 and contain:
 
 - `T2M`: Daily temperature at two metres.
 - `PRECTOTCORR`: Corrected daily precipitation.
@@ -114,6 +115,8 @@ http://localhost:8000
 
 A local server is required because the website loads JSON files and JavaScript modules. Opening `index.html` directly through a `file:///` address may not work.
 
+The public website is available at [signal-atlas-pi.vercel.app](https://signal-atlas-pi.vercel.app).
+
 ## Regenerate the data
 
 Download the raw 2025 data:
@@ -122,10 +125,22 @@ Download the raw 2025 data:
 python .\scripts\fetch_power_data.py
 ```
 
+Download a specific year, or repeat `--year` for several years:
+
+```powershell
+python .\scripts\fetch_power_data.py --year 2024 --year 2025
+```
+
 Create the monthly reports:
 
 ```powershell
 python .\scripts\process_power_data.py
+```
+
+Process specific years in the same way:
+
+```powershell
+python .\scripts\process_power_data.py --year 2024 --year 2025
 ```
 
 Both scripts use Python's standard library, so no additional Python packages are currently required.
@@ -139,6 +154,19 @@ python -m unittest discover -s tests -v
 ```
 
 The tests cover monthly aggregation, missing-data handling, report metadata, input validation and JSON output.
+
+Install the browser-test dependency and Chromium runtime once:
+
+```powershell
+npm ci
+npx playwright install chromium
+```
+
+Then run the desktop and mobile browser tests:
+
+```powershell
+npm run test:browser
+```
 
 ## Accessibility
 
@@ -162,7 +190,7 @@ Possible later additions include:
 - Searching for an address or selecting a point on a map
 - A backend for requesting and caching coordinate-based reports
 - Weekly and daily detail views
-- More locations and years
+- More locations and additional years
 - Browser-level tests
 - Deployment as a public website
 
@@ -185,7 +213,7 @@ Through this project, I am developing practical skills in:
 
 **Working historical-data report**
 
-The data download and processing pipeline is working and covered by automated unit tests. The website can load and explain monthly rainfall and temperature data for four locations. Development is continuing incrementally so that each part is understood before more complexity is added.
+The data download and processing pipeline is working and covered by automated unit tests. The deployed website can load and explain 2024 and 2025 monthly rainfall and temperature data for four locations, with browser coverage at desktop and mobile sizes. Development is continuing incrementally so that each part is understood before more complexity is added.
 
 ## Licence
 
