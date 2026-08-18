@@ -11,9 +11,9 @@ I am building Signal Atlas because I want to contribute to agriculture and envir
 Signal Atlas currently allows users to:
 
 - Select a Nigerian location.
-- Choose between 2024 and 2025 historical reports.
+- Choose between 2023, 2024 and 2025 historical reports.
 - View estimated total rainfall and average temperature for the selected year.
-- Compare annual rainfall and temperature with the other available year.
+- Compare annual rainfall and temperature with an adjacent available year.
 - Copy a direct link to the selected location and year report.
 - Download the selected report's monthly measurements and coverage as CSV.
 - Explore monthly rainfall using a bar chart.
@@ -38,7 +38,7 @@ Each location represents a regional point. It does not represent every address, 
 
 Signal Atlas uses historical meteorological data from the [NASA POWER Daily API](https://power.larc.nasa.gov/docs/services/api/temporal/daily/).
 
-The current datasets cover 1 January 2024 to 31 December 2025 and contain:
+The current datasets cover 1 January 2023 to 31 December 2025 and contain:
 
 - `T2M`: Daily temperature at two metres.
 - `PRECTOTCORR`: Corrected daily precipitation.
@@ -131,7 +131,7 @@ python .\scripts\fetch_power_data.py
 Download a specific year, or repeat `--year` for several years:
 
 ```powershell
-python .\scripts\fetch_power_data.py --year 2024 --year 2025
+python .\scripts\fetch_power_data.py --year 2023 --year 2024 --year 2025
 ```
 
 Create the monthly reports:
@@ -143,7 +143,7 @@ python .\scripts\process_power_data.py
 Process specific years in the same way:
 
 ```powershell
-python .\scripts\process_power_data.py --year 2024 --year 2025
+python .\scripts\process_power_data.py --year 2023 --year 2024 --year 2025
 ```
 
 Both scripts use Python's standard library, so no additional Python packages are currently required.
@@ -214,7 +214,7 @@ Through this project, I am developing practical skills in:
 
 **Working historical-data report**
 
-The data download and processing pipeline is working and covered by automated unit tests. The deployed website can load, compare and explain 2024 and 2025 monthly rainfall and temperature data for four locations, with browser coverage at desktop and mobile sizes. Development is continuing incrementally so that each part is understood before more complexity is added.
+The data download and processing pipeline is working and covered by automated unit tests. The deployed website can load, compare and explain 2023–2025 monthly rainfall and temperature data for four locations, with browser coverage at desktop and mobile sizes. Development is continuing incrementally so that each part is understood before more complexity is added.
 
 ## Licence
 
