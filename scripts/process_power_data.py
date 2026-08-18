@@ -123,6 +123,26 @@ def build_report(payload, slug, year=DEFAULT_YEAR):
         )
 
     fill_value = header.get("fill_value", -999)
+    period_start = datetime.strptime(
+        str(header["start"]),
+        DATE_FORMAT,
+    ).date()
+    period_end = datetime.strptime(
+        str(header["end"]),
+        DATE_FORMAT,
+    ).date()
+
+    if period_start.year != year or period_end.year != year:
+        raise SystemExit(
+            f"The report period must stay within {year}."
+        )
+
+    is_complete_year = (
+        period_start.month == 1
+        and period_start.day == 1
+        and period_end.month == 12
+        and period_end.day == 31
+    )
 
     temperature_by_month = collect_monthly_values(
         parameter_data[TEMPERATURE_PARAMETER],
@@ -140,14 +160,18 @@ def build_report(payload, slug, year=DEFAULT_YEAR):
 
     months = []
 
-    for month_number in range(1, 13):
+    for month_number in range(
+        period_start.month,
+        period_end.month + 1,
+    ):
         temperature_values = temperature_by_month[month_number]
         rainfall_values = rainfall_by_month[month_number]
 
-        expected_days = calendar.monthrange(
-            year,
-            month_number,
-        )[1]
+        expected_days = (
+            period_end.day
+            if month_number == period_end.month
+            else calendar.monthrange(year, month_number)[1]
+        )
 
         months.append(
             {
@@ -202,8 +226,13 @@ def build_report(payload, slug, year=DEFAULT_YEAR):
         },
         "period": {
             "year": year,
-            "start": format_date(header["start"]),
-            "end": format_date(header["end"]),
+            "start": period_start.isoformat(),
+            "end": period_end.isoformat(),
+            "status": (
+                "complete"
+                if is_complete_year
+                else "year-to-date"
+            ),
         },
         "annual_summary": {
             "average_temperature_c": calculate_average(

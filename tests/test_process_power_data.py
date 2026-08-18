@@ -139,6 +139,7 @@ class ReportTests(unittest.TestCase):
             "year": 2025,
             "start": "2025-01-01",
             "end": "2025-12-31",
+            "status": "complete",
         })
         self.assertEqual(report["source"]["provider"], "NASA POWER")
         self.assertEqual(len(report["months"]), 12)
@@ -157,6 +158,24 @@ class ReportTests(unittest.TestCase):
         self.assertEqual(
             report["months"][1]["temperature"]["missing_days"],
             28,
+        )
+
+    def test_year_to_date_report_stops_at_its_actual_end_date(self):
+        payload = make_payload(
+            temperature={"20260101": 25, "20260818": 27},
+            rainfall={"20260101": 1, "20260818": 3},
+        )
+        payload["header"]["start"] = "20260101"
+        payload["header"]["end"] = "20260818"
+
+        report = build_report(payload, "test-location", 2026)
+
+        self.assertEqual(report["period"]["status"], "year-to-date")
+        self.assertEqual(report["period"]["end"], "2026-08-18")
+        self.assertEqual(len(report["months"]), 8)
+        self.assertEqual(
+            report["months"][-1]["temperature"]["missing_days"],
+            17,
         )
 
     def test_missing_required_parameter_is_rejected(self):
