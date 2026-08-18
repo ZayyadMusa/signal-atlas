@@ -65,7 +65,12 @@ const dateFormatter = new Intl.DateTimeFormat("en-NG", {
 
 viewConditionsButton.addEventListener(
     "click",
-    loadSelectedReport
+    () => loadSelectedReport()
+);
+
+window.addEventListener(
+    "popstate",
+    restoreReportFromUrl
 );
 
 locationSelect.addEventListener(
@@ -122,7 +127,10 @@ function resetReport() {
     hideCharts();
 }
 
-async function loadSelectedReport() {
+async function loadSelectedReport({
+    updateHistory = true,
+    scrollToResults = true,
+} = {}) {
     const locationSlug = locationSelect.value;
     const reportYear = yearSelect.value;
 
@@ -140,7 +148,10 @@ async function loadSelectedReport() {
     const locationName = selectedOption.textContent.trim();
 
     showLoadingState(locationName, reportYear);
-    resultsSection.scrollIntoView();
+
+    if (scrollToResults) {
+        resultsSection.scrollIntoView();
+    }
 
     try {
         const response = await fetch(
@@ -156,6 +167,10 @@ async function loadSelectedReport() {
         const report = await response.json();
 
         showReport(report);
+
+        if (updateHistory) {
+            updateReportUrl(locationSlug, reportYear);
+        }
     } catch (error) {
         console.error(
             `Could not load the ${locationName} report.`,
@@ -169,6 +184,61 @@ async function loadSelectedReport() {
         yearSelect.disabled = false;
         viewConditionsButton.disabled = false;
         viewConditionsButton.textContent = "View conditions";
+    }
+}
+
+function updateReportUrl(locationSlug, reportYear) {
+    const url = new URL(window.location.href);
+
+    url.searchParams.set("location", locationSlug);
+    url.searchParams.set("year", reportYear);
+
+    if (url.href !== window.location.href) {
+        window.history.pushState(null, "", url);
+    }
+}
+
+function selectHasValue(select, value) {
+    return Array.from(select.options).some(
+        (option) => option.value === value
+    );
+}
+
+async function restoreReportFromUrl() {
+    const url = new URL(window.location.href);
+    const locationSlug = url.searchParams.get("location");
+    const reportYear = url.searchParams.get("year");
+    let urlChanged = false;
+
+    if (reportYear && selectHasValue(yearSelect, reportYear)) {
+        yearSelect.value = reportYear;
+    } else if (reportYear) {
+        url.searchParams.delete("year");
+        urlChanged = true;
+    }
+
+    if (locationSlug && selectHasValue(locationSelect, locationSlug)) {
+        locationSelect.value = locationSlug;
+    } else {
+        locationSelect.value = "";
+
+        if (locationSlug) {
+            url.searchParams.delete("location");
+            urlChanged = true;
+        }
+    }
+
+    if (urlChanged) {
+        window.history.replaceState(null, "", url);
+    }
+
+    handleLocationChange();
+
+    if (locationSelect.value) {
+        await loadSelectedReport({
+            updateHistory: false,
+            scrollToResults: true,
+        });
     }
 }
 
@@ -367,4 +437,4 @@ function showErrorState(locationName) {
     hideCharts();
 }
 
-handleLocationChange();
+restoreReportFromUrl();

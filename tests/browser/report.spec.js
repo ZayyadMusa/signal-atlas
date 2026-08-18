@@ -40,6 +40,7 @@ test("loads a complete location report", async ({ page }) => {
   await expect(page.locator("#temperature-chart")).toBeVisible();
   await expect(page.locator("#temperature-points circle")).toHaveCount(12);
   await expect(page.locator("#temperature-table-body tr")).toHaveCount(12);
+  await expect(page).toHaveURL(/\?location=lagos&year=2025$/);
 });
 
 test("loads a leap-year report", async ({ page }) => {
@@ -61,6 +62,42 @@ test("loads a leap-year report", async ({ page }) => {
   await expect(page.locator("#report-coverage")).toHaveText(
     "366 of 366 temperature days and 366 of 366 rainfall days"
   );
+});
+
+test("restores a shared report URL", async ({ page }) => {
+  await page.goto("/?location=port-harcourt&year=2024");
+
+  await expect(page.locator("#location")).toHaveValue("port-harcourt");
+  await expect(page.locator("#report-year")).toHaveValue("2024");
+  await expect(
+    page.getByRole("heading", { name: "Port Harcourt report" })
+  ).toBeVisible();
+  await expect(page.locator("#report-period")).toContainText("2024");
+});
+
+test("ignores and removes unsupported report parameters", async ({ page }) => {
+  await page.goto("/?location=unknown&year=2035");
+
+  await expect(page.locator("#location")).toHaveValue("");
+  await expect(page.locator("#report-year")).toHaveValue("2025");
+  await expect(
+    page.getByRole("heading", { name: "No location selected" })
+  ).toBeVisible();
+  await expect(page).toHaveURL(/\/$/);
+});
+
+test("restores the empty state with browser history", async ({ page }) => {
+  await page.goto("/");
+  await page.locator("#location").selectOption("abuja");
+  await page.getByRole("button", { name: "View conditions" }).click();
+  await expect(page).toHaveURL(/\?location=abuja&year=2025$/);
+
+  await page.goBack();
+
+  await expect(page.locator("#location")).toHaveValue("");
+  await expect(
+    page.getByRole("heading", { name: "No location selected" })
+  ).toBeVisible();
 });
 
 test("shows a useful error when report loading fails", async ({ page }) => {
