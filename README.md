@@ -14,6 +14,7 @@ Signal Atlas currently allows users to:
 - Choose between 2024 and 2025 historical reports.
 - View estimated total rainfall and average temperature for the selected year.
 - Compare annual rainfall and temperature with the other available year.
+- Copy a direct link to the selected location and year report.
 - Explore monthly rainfall using a bar chart.
 - Follow monthly temperature changes using a line chart.
 - Open a table containing the exact monthly temperature values.
