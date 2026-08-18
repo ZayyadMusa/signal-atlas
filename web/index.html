@@ -36,18 +36,30 @@
             <h2 id="explore-title">Choose a location</h2>
             <p>The first locations are Abuja, Kaduna, Lagos and Port Harcourt.</p>
 
-            <label for="location">Location</label>
-            <select id="location" name="location">
-                <option value="">Choose a location</option>
-                <option value="abuja">Abuja</option>
-                <option value="kaduna">Kaduna</option>
-                <option value="lagos">Lagos</option>
-                <option value="port-harcourt">Port Harcourt</option>
-            </select>
+            <div class="report-controls">
+                <div class="report-controls__field">
+                    <label for="location">Location</label>
+                    <select id="location" name="location">
+                        <option value="">Choose a location</option>
+                        <option value="abuja">Abuja</option>
+                        <option value="kaduna">Kaduna</option>
+                        <option value="lagos">Lagos</option>
+                        <option value="port-harcourt">Port Harcourt</option>
+                    </select>
+                </div>
 
-            <button id="view-conditions" type="button">
-                View conditions
-            </button>
+                <div class="report-controls__field">
+                    <label for="report-year">Year</label>
+                    <select id="report-year" name="report-year">
+                        <option value="2025">2025</option>
+                        <option value="2024">2024</option>
+                    </select>
+                </div>
+
+                <button id="view-conditions" type="button">
+                    View conditions
+                </button>
+            </div>
         </section>
 
         <section id="results" aria-labelledby="results-title">

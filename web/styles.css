@@ -201,27 +201,35 @@ main > section:first-child > a::after {
 }
 
 #explore {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
-    gap: 0.9rem 1rem;
+    display: block;
 }
 
 #explore h2,
-#explore > p,
-#explore label {
-    grid-column: 1 / -1;
+#explore > p {
+    max-width: 42rem;
 }
 
 #explore > p {
-    max-width: 42rem;
-    margin: 0 0 1.5rem;
+    margin: 0 0 1.75rem;
     color: var(--muted);
 }
 
 #explore label {
+    display: block;
+    margin-block-end: 0.45rem;
     font-size: 0.9rem;
     font-weight: 600;
+}
+
+.report-controls {
+    display: grid;
+    grid-template-columns: minmax(13rem, 1fr) minmax(8rem, 0.4fr) auto;
+    align-items: end;
+    gap: 1rem;
+}
+
+.report-controls__field {
+    min-width: 0;
 }
 
 #explore select {
@@ -397,19 +405,20 @@ body > footer p {
         background-size: auto, 2rem 2rem, 2rem 2rem;
     }
 
-    #explore,
     #results,
     #data-source {
         grid-template-columns: 1fr;
     }
 
-    #explore select,
-    #explore button,
     #results > div,
     #results aside,
     #data-source h2,
     #data-source p {
         grid-column: 1;
+    }
+
+    .report-controls {
+        grid-template-columns: 1fr;
     }
 
     #explore button {

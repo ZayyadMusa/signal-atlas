@@ -8,9 +8,8 @@ import {
     showTemperatureChart,
 } from "./temperature-chart.js";
 
-const REPORT_YEAR = 2025;
-
 const locationSelect = document.getElementById("location");
+const yearSelect = document.getElementById("report-year");
 const viewConditionsButton =
     document.getElementById("view-conditions");
 const resultsSection = document.getElementById("results");
@@ -74,6 +73,11 @@ locationSelect.addEventListener(
     handleLocationChange
 );
 
+yearSelect.addEventListener(
+    "change",
+    handleLocationChange
+);
+
 function handleLocationChange() {
     if (!locationSelect.value) {
         resetReport();
@@ -84,11 +88,13 @@ function handleLocationChange() {
         locationSelect.options[locationSelect.selectedIndex];
 
     const locationName = selectedOption.textContent.trim();
+    const reportYear = yearSelect.value;
 
-    resultsTitle.textContent = `${locationName} selected`;
+    resultsTitle.textContent = `${locationName}, ${reportYear} selected`;
 
     dataStatus.textContent =
-        `Select View conditions to load the ${locationName} report.`;
+        `Select View conditions to load the ${locationName} ` +
+        `${reportYear} report.`;
 
     rainfallSummary.textContent = RAINFALL_PLACEHOLDER;
     temperatureSummary.textContent = TEMPERATURE_PLACEHOLDER;
@@ -118,6 +124,7 @@ function resetReport() {
 
 async function loadSelectedReport() {
     const locationSlug = locationSelect.value;
+    const reportYear = yearSelect.value;
 
     if (!locationSlug) {
         dataStatus.textContent =
@@ -132,12 +139,12 @@ async function loadSelectedReport() {
 
     const locationName = selectedOption.textContent.trim();
 
-    showLoadingState(locationName);
+    showLoadingState(locationName, reportYear);
     resultsSection.scrollIntoView();
 
     try {
         const response = await fetch(
-            `data/${locationSlug}-${REPORT_YEAR}.json`
+            `data/${locationSlug}-${reportYear}.json`
         );
 
         if (!response.ok) {
@@ -159,16 +166,17 @@ async function loadSelectedReport() {
     } finally {
         resultsSection.setAttribute("aria-busy", "false");
         locationSelect.disabled = false;
+        yearSelect.disabled = false;
         viewConditionsButton.disabled = false;
         viewConditionsButton.textContent = "View conditions";
     }
 }
 
-function showLoadingState(locationName) {
+function showLoadingState(locationName, reportYear) {
     resultsSection.setAttribute("aria-busy", "true");
 
     resultsTitle.textContent =
-        `Loading ${locationName} report`;
+        `Loading ${locationName} ${reportYear} report`;
 
     dataStatus.textContent =
         `Retrieving the historical report for ${locationName}.`;
@@ -186,6 +194,7 @@ function showLoadingState(locationName) {
     hideCharts();
 
     locationSelect.disabled = true;
+    yearSelect.disabled = true;
     viewConditionsButton.disabled = true;
     viewConditionsButton.textContent = "Loading...";
 }
