@@ -58,6 +58,8 @@ const RAINFALL_PLACEHOLDER =
 const TEMPERATURE_PLACEHOLDER =
     "Monthly temperature information will appear here in degrees Celsius.";
 
+const REPORT_YEARS = ["2025", "2024", "2023"];
+
 const annualRainfallFormatter = new Intl.NumberFormat("en-NG", {
     maximumFractionDigits: 0,
 });
@@ -427,7 +429,10 @@ async function copyReportLink() {
 }
 
 async function loadYearComparison(report, locationSlug, reportYear) {
-    const comparisonYear = reportYear === "2025" ? "2024" : "2025";
+    const reportYearIndex = REPORT_YEARS.indexOf(reportYear);
+    const comparisonYear = reportYearIndex < REPORT_YEARS.length - 1
+        ? REPORT_YEARS[reportYearIndex + 1]
+        : REPORT_YEARS[reportYearIndex - 1];
 
     yearComparison.hidden = false;
     yearComparisonDescription.textContent = `Comparing ${reportYear} with ${comparisonYear} for ${report.location.name}.`;

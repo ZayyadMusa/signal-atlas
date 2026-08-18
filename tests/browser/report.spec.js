@@ -137,6 +137,25 @@ test("loads a leap-year report", async ({ page }) => {
   );
 });
 
+test("loads a 2023 report and compares it with 2024", async ({ page }) => {
+  await page.goto("/");
+  await page.locator("#location").selectOption("port-harcourt");
+  await page.locator("#report-year").selectOption("2023");
+  await page.getByRole("button", { name: "View conditions" }).click();
+
+  await expect(
+    page.getByRole("heading", { name: "Port Harcourt report" })
+  ).toBeVisible();
+  await expect(page.locator("#data-status")).toContainText(
+    "All 365 daily records are present"
+  );
+  await expect(page.locator("#report-period")).toContainText("2023");
+  await expect(page.locator("#year-comparison-description")).toContainText(
+    "2023 compared with 2024"
+  );
+  await expect(page).toHaveURL(/\?location=port-harcourt&year=2023$/);
+});
+
 test("restores a shared report URL", async ({ page }) => {
   await page.goto("/?location=port-harcourt&year=2024");
 
