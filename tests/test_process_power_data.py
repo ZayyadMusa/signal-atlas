@@ -59,6 +59,7 @@ class MonthlyCollectionTests(unittest.TestCase):
             },
             -999,
             "T2M",
+            2025,
         )
 
         self.assertEqual(result[1], [25.0])
@@ -67,11 +68,22 @@ class MonthlyCollectionTests(unittest.TestCase):
 
     def test_invalid_date_is_rejected(self):
         with self.assertRaisesRegex(SystemExit, "invalid date"):
-            collect_monthly_values({"not-a-date": 25}, -999, "T2M")
+            collect_monthly_values(
+                {"not-a-date": 25}, -999, "T2M", 2025
+            )
 
     def test_data_outside_2025_is_rejected(self):
         with self.assertRaisesRegex(SystemExit, "outside 2025"):
-            collect_monthly_values({"20240101": 25}, -999, "T2M")
+            collect_monthly_values(
+                {"20240101": 25}, -999, "T2M", 2025
+            )
+
+    def test_leap_day_is_grouped_for_a_leap_year(self):
+        result = collect_monthly_values(
+            {"20240229": 26}, -999, "T2M", 2024
+        )
+
+        self.assertEqual(result[2], [26.0])
 
 
 class ReportTests(unittest.TestCase):
@@ -130,6 +142,22 @@ class ReportTests(unittest.TestCase):
         })
         self.assertEqual(report["source"]["provider"], "NASA POWER")
         self.assertEqual(len(report["months"]), 12)
+
+    def test_report_uses_leap_year_day_counts(self):
+        payload = make_payload(
+            temperature={"20240229": 26},
+            rainfall={"20240229": 4},
+        )
+        payload["header"]["start"] = "20240101"
+        payload["header"]["end"] = "20241231"
+
+        report = build_report(payload, "test-location", 2024)
+
+        self.assertEqual(report["period"]["year"], 2024)
+        self.assertEqual(
+            report["months"][1]["temperature"]["missing_days"],
+            28,
+        )
 
     def test_missing_required_parameter_is_rejected(self):
         payload = make_payload()

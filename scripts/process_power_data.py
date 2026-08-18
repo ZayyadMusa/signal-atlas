@@ -1,10 +1,11 @@
+import argparse
 import calendar
 import json
 from datetime import datetime
 from pathlib import Path
 
 
-YEAR = 2025
+DEFAULT_YEAR = 2025
 
 LOCATION_SLUGS = (
     "abuja",
@@ -34,7 +35,7 @@ def load_payload(input_path):
         ) from error
 
 
-def collect_monthly_values(records, fill_value, parameter_name):
+def collect_monthly_values(records, fill_value, parameter_name, year):
     values_by_month = {
         month_number: []
         for month_number in range(1, 13)
@@ -51,9 +52,9 @@ def collect_monthly_values(records, fill_value, parameter_name):
                 f"{parameter_name} contains an invalid date: {date_text}"
             ) from error
 
-        if record_date.year != YEAR:
+        if record_date.year != year:
             raise SystemExit(
-                f"{parameter_name} contains data outside {YEAR}."
+                f"{parameter_name} contains data outside {year}."
             )
 
         if value == fill_value:
@@ -85,7 +86,7 @@ def format_date(date_text):
     ).date().isoformat()
 
 
-def build_report(payload, slug):
+def build_report(payload, slug, year=DEFAULT_YEAR):
     header = payload.get("header", {})
     parameter_information = payload.get("parameters", {})
     parameter_data = (
@@ -127,12 +128,14 @@ def build_report(payload, slug):
         parameter_data[TEMPERATURE_PARAMETER],
         fill_value,
         TEMPERATURE_PARAMETER,
+        year,
     )
 
     rainfall_by_month = collect_monthly_values(
         parameter_data[RAINFALL_PARAMETER],
         fill_value,
         RAINFALL_PARAMETER,
+        year,
     )
 
     months = []
@@ -142,7 +145,7 @@ def build_report(payload, slug):
         rainfall_values = rainfall_by_month[month_number]
 
         expected_days = calendar.monthrange(
-            YEAR,
+            year,
             month_number,
         )[1]
 
@@ -198,7 +201,7 @@ def build_report(payload, slug):
             ),
         },
         "period": {
-            "year": YEAR,
+            "year": year,
             "start": format_date(header["start"]),
             "end": format_date(header["end"]),
         },
@@ -242,22 +245,36 @@ def save_report(report, output_path):
 
 
 def main():
+    parser = argparse.ArgumentParser(
+        description="Create monthly Signal Atlas reports."
+    )
+    parser.add_argument(
+        "--year",
+        type=int,
+        action="append",
+        dest="years",
+        help="Year to process. Repeat the option for multiple years.",
+    )
+    arguments = parser.parse_args()
+    years = arguments.years or [DEFAULT_YEAR]
+
     project_root = Path(__file__).resolve().parents[1]
     raw_directory = project_root / "data" / "raw"
     output_directory = project_root / "web" / "data"
 
-    for slug in LOCATION_SLUGS:
-        input_path = raw_directory / f"{slug}-{YEAR}.json"
-        output_path = output_directory / f"{slug}-{YEAR}.json"
+    for year in years:
+        for slug in LOCATION_SLUGS:
+            input_path = raw_directory / f"{slug}-{year}.json"
+            output_path = output_directory / f"{slug}-{year}.json"
 
-        payload = load_payload(input_path)
-        report = build_report(payload, slug)
-        save_report(report, output_path)
+            payload = load_payload(input_path)
+            report = build_report(payload, slug, year)
+            save_report(report, output_path)
 
-        print(
-            f"Processed {input_path.name} -> "
-            f"{output_path.relative_to(project_root)}"
-        )
+            print(
+                f"Processed {input_path.name} -> "
+                f"{output_path.relative_to(project_root)}"
+            )
 
 
 if __name__ == "__main__":

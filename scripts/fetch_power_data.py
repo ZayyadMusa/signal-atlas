@@ -1,3 +1,4 @@
+import argparse
 import json
 from pathlib import Path
 from urllib.error import HTTPError, URLError
@@ -34,19 +35,19 @@ LOCATIONS = (
     },
 )
 
-YEAR = 2025
+DEFAULT_YEAR = 2025
 PARAMETERS = ("T2M", "PRECTOTCORR")
 
 
-def build_request_url(location):
+def build_request_url(location, year):
     query = urlencode(
         {
             "parameters": ",".join(PARAMETERS),
             "community": "AG",
             "longitude": location["longitude"],
             "latitude": location["latitude"],
-            "start": f"{YEAR}0101",
-            "end": f"{YEAR}1231",
+            "start": f"{year}0101",
+            "end": f"{year}1231",
             "format": "JSON",
             "time-standard": "LST",
         }
@@ -112,14 +113,14 @@ def validate_data(payload):
     return parameter_data
 
 
-def save_data(payload, location):
+def save_data(payload, location, year):
     project_root = Path(__file__).resolve().parents[1]
     output_directory = project_root / "data" / "raw"
     output_directory.mkdir(parents=True, exist_ok=True)
 
     output_path = (
         output_directory
-        / f"{location['slug']}-{YEAR}.json"
+        / f"{location['slug']}-{year}.json"
     )
 
     with output_path.open("w", encoding="utf-8") as output_file:
@@ -130,22 +131,39 @@ def save_data(payload, location):
 
 
 def main():
-    for location in LOCATIONS:
-        request_url = build_request_url(location)
+    parser = argparse.ArgumentParser(
+        description="Download daily NASA POWER data for Signal Atlas."
+    )
+    parser.add_argument(
+        "--year",
+        type=int,
+        action="append",
+        dest="years",
+        help="Year to download. Repeat the option for multiple years.",
+    )
+    arguments = parser.parse_args()
+    years = arguments.years or [DEFAULT_YEAR]
 
-        print(f"Requesting NASA POWER data for {location['name']}...")
+    for year in years:
+        for location in LOCATIONS:
+            request_url = build_request_url(location, year)
 
-        payload = download_data(request_url)
-        parameter_data = validate_data(payload)
-        output_path = save_data(payload, location)
+            print(
+                f"Requesting NASA POWER data for "
+                f"{location['name']} ({year})..."
+            )
 
-        temperature_days = len(parameter_data["T2M"])
-        rainfall_days = len(parameter_data["PRECTOTCORR"])
+            payload = download_data(request_url)
+            parameter_data = validate_data(payload)
+            output_path = save_data(payload, location, year)
 
-        print(f"Temperature records: {temperature_days}")
-        print(f"Rainfall records: {rainfall_days}")
-        print(f"Saved data to: {output_path}")
-        print()
+            temperature_days = len(parameter_data["T2M"])
+            rainfall_days = len(parameter_data["PRECTOTCORR"])
+
+            print(f"Temperature records: {temperature_days}")
+            print(f"Rainfall records: {rainfall_days}")
+            print(f"Saved data to: {output_path}")
+            print()
 
 if __name__ == "__main__":
     main()
