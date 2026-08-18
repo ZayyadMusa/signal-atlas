@@ -130,6 +130,16 @@ python .\scripts\process_power_data.py
 
 Both scripts use Python's standard library, so no additional Python packages are currently required.
 
+## Run the automated tests
+
+Run the data-processing test suite from the project root:
+
+```powershell
+python -m unittest discover -s tests -v
+```
+
+The tests cover monthly aggregation, missing-data handling, report metadata, input validation and JSON output.
+
 ## Accessibility
 
 Signal Atlas currently uses:
@@ -153,7 +163,7 @@ Possible later additions include:
 - A backend for requesting and caching coordinate-based reports
 - Weekly and daily detail views
 - More locations and years
-- Automated tests
+- Browser-level tests
 - Deployment as a public website
 
 Current-location and address support will be added after the fixed-location data pipeline and report have been fully tested.
@@ -175,7 +185,7 @@ Through this project, I am developing practical skills in:
 
 **Working historical-data report**
 
-The data download and processing pipeline is working. The website can load and explain monthly rainfall and temperature data for four locations. Development is continuing incrementally so that each part is understood before more complexity is added.
+The data download and processing pipeline is working and covered by automated unit tests. The website can load and explain monthly rainfall and temperature data for four locations. Development is continuing incrementally so that each part is understood before more complexity is added.
 
 ## Licence
 
