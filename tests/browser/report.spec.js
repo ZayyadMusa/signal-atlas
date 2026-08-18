@@ -156,6 +156,26 @@ test("loads a 2023 report and compares it with 2024", async ({ page }) => {
   await expect(page).toHaveURL(/\?location=port-harcourt&year=2023$/);
 });
 
+test("labels 2026 as year to date without an annual comparison", async ({ page }) => {
+  await page.goto("/?location=lagos&year=2026");
+
+  await expect(
+    page.getByRole("heading", { name: "Lagos year-to-date report" })
+  ).toBeVisible();
+  await expect(page.locator("#report-period")).toHaveText(
+    "1 Jan 2026–18 Aug 2026"
+  );
+  await expect(page.locator("#data-status")).toContainText(
+    "through 18 Aug 2026"
+  );
+  await expect(page.locator("#rainfall-bars > li")).toHaveCount(8);
+  await expect(page.locator("#temperature-points circle")).toHaveCount(8);
+  await expect(page.locator("#year-comparison-description")).toContainText(
+    "partial year should not be compared"
+  );
+  await expect(page.locator("#year-comparison-values")).toBeHidden();
+});
+
 test("restores a shared report URL", async ({ page }) => {
   await page.goto("/?location=port-harcourt&year=2024");
 

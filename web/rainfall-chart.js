@@ -50,8 +50,12 @@ export function showRainfallChart(report) {
         wettestMonth.rainfall.total_mm
     );
 
+    const periodQualifier = report.period.status === "year-to-date"
+        ? " so far"
+        : "";
+
     rainfallChartDescription.textContent =
-        `${report.location.name}'s wettest month in ` +
+        `${report.location.name}'s wettest month${periodQualifier} in ` +
         `${report.period.year} was ${wettestMonth.name}, with an ` +
         `estimated ${wettestValue} mm of rainfall.`;
 

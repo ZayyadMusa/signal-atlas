@@ -83,11 +83,14 @@ export function showTemperatureChart(report) {
         warmestMonth.temperature.average_c
     );
 
+    const periodQualifier = report.period.status === "year-to-date"
+        ? " so far"
+        : "";
     const description =
         `${report.location.name}'s estimated monthly average ` +
         `temperature ranged from ${coolestValue} °C in ` +
         `${coolestMonth.name} to ${warmestValue} °C in ` +
-        `${warmestMonth.name} during ${report.period.year}.`;
+        `${warmestMonth.name} during ${report.period.year}${periodQualifier}.`;
 
     temperatureChartDescription.textContent = description;
     temperaturePlotDescription.textContent = description;

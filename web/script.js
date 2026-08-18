@@ -51,6 +51,7 @@ const yearComparison = document.getElementById("year-comparison");
 const yearComparisonDescription = document.getElementById("year-comparison-description");
 const rainfallComparison = document.getElementById("rainfall-comparison");
 const temperatureComparison = document.getElementById("temperature-comparison");
+const yearComparisonValues = document.getElementById("year-comparison-values");
 
 const RAINFALL_PLACEHOLDER =
     "Monthly rainfall totals will appear here in millimetres.";
@@ -58,7 +59,7 @@ const RAINFALL_PLACEHOLDER =
 const TEMPERATURE_PLACEHOLDER =
     "Monthly temperature information will appear here in degrees Celsius.";
 
-const REPORT_YEARS = ["2025", "2024", "2023"];
+const REPORT_YEARS = ["2026", "2025", "2024", "2023"];
 
 const annualRainfallFormatter = new Intl.NumberFormat("en-NG", {
     maximumFractionDigits: 0,
@@ -314,7 +315,11 @@ function showReport(report) {
         0
     );
 
-    resultsTitle.textContent = `${location.name} report`;
+    const isYearToDate = period.status === "year-to-date";
+
+    resultsTitle.textContent = isYearToDate
+        ? `${location.name} year-to-date report`
+        : `${location.name} report`;
 
     if (summary.total_rainfall_mm === null) {
         rainfallSummary.textContent =
@@ -324,9 +329,11 @@ function showReport(report) {
             summary.total_rainfall_mm
         );
 
-        rainfallSummary.textContent =
-            `The estimated rainfall total across ${period.year} ` +
-            `was about ${rainfall} mm.`;
+        rainfallSummary.textContent = isYearToDate
+            ? `The estimated rainfall total from ${formatReportDate(period.start)} ` +
+              `to ${formatReportDate(period.end)} was about ${rainfall} mm.`
+            : `The estimated rainfall total across ${period.year} ` +
+              `was about ${rainfall} mm.`;
     }
 
     if (summary.average_temperature_c === null) {
@@ -337,9 +344,11 @@ function showReport(report) {
             summary.average_temperature_c
         );
 
-        temperatureSummary.textContent =
-            `The estimated average temperature across ${period.year} ` +
-            `was ${temperature} °C.`;
+        temperatureSummary.textContent = isYearToDate
+            ? `The estimated average temperature from ${formatReportDate(period.start)} ` +
+              `to ${formatReportDate(period.end)} was ${temperature} °C.`
+            : `The estimated average temperature across ${period.year} ` +
+              `was ${temperature} °C.`;
     }
 
     if (
@@ -353,7 +362,8 @@ function showReport(report) {
     } else {
         dataStatus.textContent =
             `${report.source.provider} estimates for the area around ` +
-            `${location.name} in ${period.year}. Missing daily records: ` +
+            `${location.name} through ${formatReportDate(period.end)}. ` +
+            `Missing daily records: ` +
             `${missingTemperatureDays} temperature and ` +
             `${missingRainfallDays} rainfall.`;
     }
@@ -429,12 +439,22 @@ async function copyReportLink() {
 }
 
 async function loadYearComparison(report, locationSlug, reportYear) {
+    if (report.period.status === "year-to-date") {
+        yearComparison.hidden = false;
+        yearComparisonValues.hidden = true;
+        yearComparisonDescription.textContent =
+            "Annual comparison will be available when the 2026 report is complete. " +
+            "A partial year should not be compared with a full-year total.";
+        return;
+    }
+
     const reportYearIndex = REPORT_YEARS.indexOf(reportYear);
     const comparisonYear = reportYearIndex < REPORT_YEARS.length - 1
         ? REPORT_YEARS[reportYearIndex + 1]
         : REPORT_YEARS[reportYearIndex - 1];
 
     yearComparison.hidden = false;
+    yearComparisonValues.hidden = false;
     yearComparisonDescription.textContent = `Comparing ${reportYear} with ${comparisonYear} for ${report.location.name}.`;
     rainfallComparison.textContent = "Loading comparison...";
     temperatureComparison.textContent = "Loading comparison...";
@@ -524,6 +544,7 @@ function showReportDetailsPlaceholder(message) {
     reportMetadata.hidden = true;
     reportLimitation.hidden = true;
     yearComparison.hidden = true;
+    yearComparisonValues.hidden = false;
     reportActions.hidden = true;
     copyLinkStatus.textContent = "";
     currentReport = null;

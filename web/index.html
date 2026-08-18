@@ -51,7 +51,8 @@
                 <div class="report-controls__field">
                     <label for="report-year">Year</label>
                     <select id="report-year" name="report-year">
-                        <option value="2025">2025</option>
+                        <option value="2026">2026 — year to date</option>
+                        <option value="2025" selected>2025</option>
                         <option value="2024">2024</option>
                         <option value="2023">2023</option>
                     </select>
@@ -155,7 +156,7 @@
                     <h3 id="year-comparison-title">Compare years</h3>
                     <p id="year-comparison-description"></p>
                 </div>
-                <dl class="year-comparison__values">
+                <dl id="year-comparison-values" class="year-comparison__values">
                     <div><dt>Rainfall difference</dt><dd id="rainfall-comparison"></dd></div>
                     <div><dt>Temperature difference</dt><dd id="temperature-comparison"></dd></div>
                 </dl>
