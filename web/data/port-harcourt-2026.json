@@ -1,28 +1,29 @@
 {
   "location": {
-    "name": "Kaduna",
-    "slug": "kaduna",
-    "latitude": 10.511,
-    "longitude": 7.417,
-    "elevation_m": 623.54
+    "name": "Port Harcourt",
+    "slug": "port-harcourt",
+    "latitude": 4.816,
+    "longitude": 7.05,
+    "elevation_m": 27.2
   },
   "period": {
-    "year": 2025,
-    "start": "2025-01-01",
-    "end": "2025-12-31",
-    "status": "complete"
+    "year": 2026,
+    "start": "2026-01-01",
+    "end": "2026-08-18",
+    "status": "year-to-date"
   },
   "annual_summary": {
-    "average_temperature_c": 25.47,
-    "total_rainfall_mm": 1183.44,
-    "temperature_days": 365,
-    "rainfall_days": 365
+    "average_temperature_c": 26.54,
+    "total_rainfall_mm": 1732.4,
+    "temperature_days": 226,
+    "rainfall_days": 226
   },
   "source": {
     "provider": "NASA POWER",
     "api_name": "POWER Daily API",
     "api_version": "v2.9.6",
     "datasets": [
+      "GEOSIT",
       "MERRA2"
     ],
     "time_standard": "LST",
@@ -42,12 +43,12 @@
       "number": 1,
       "name": "January",
       "temperature": {
-        "average_c": 22.43,
+        "average_c": 26.78,
         "valid_days": 31,
         "missing_days": 0
       },
       "rainfall": {
-        "total_mm": 0.0,
+        "total_mm": 8.29,
         "valid_days": 31,
         "missing_days": 0
       }
@@ -56,12 +57,12 @@
       "number": 2,
       "name": "February",
       "temperature": {
-        "average_c": 25.31,
+        "average_c": 27.04,
         "valid_days": 28,
         "missing_days": 0
       },
       "rainfall": {
-        "total_mm": 0.3,
+        "total_mm": 34.67,
         "valid_days": 28,
         "missing_days": 0
       }
@@ -70,12 +71,12 @@
       "number": 3,
       "name": "March",
       "temperature": {
-        "average_c": 29.27,
+        "average_c": 27.33,
         "valid_days": 31,
         "missing_days": 0
       },
       "rainfall": {
-        "total_mm": 1.0,
+        "total_mm": 30.86,
         "valid_days": 31,
         "missing_days": 0
       }
@@ -84,12 +85,12 @@
       "number": 4,
       "name": "April",
       "temperature": {
-        "average_c": 30.38,
+        "average_c": 27.29,
         "valid_days": 30,
         "missing_days": 0
       },
       "rainfall": {
-        "total_mm": 18.02,
+        "total_mm": 335.16,
         "valid_days": 30,
         "missing_days": 0
       }
@@ -98,12 +99,12 @@
       "number": 5,
       "name": "May",
       "temperature": {
-        "average_c": 29.15,
+        "average_c": 27.09,
         "valid_days": 31,
         "missing_days": 0
       },
       "rainfall": {
-        "total_mm": 91.08,
+        "total_mm": 325.88,
         "valid_days": 31,
         "missing_days": 0
       }
@@ -112,12 +113,12 @@
       "number": 6,
       "name": "June",
       "temperature": {
-        "average_c": 25.91,
+        "average_c": 26.17,
         "valid_days": 30,
         "missing_days": 0
       },
       "rainfall": {
-        "total_mm": 141.86,
+        "total_mm": 418.63,
         "valid_days": 30,
         "missing_days": 0
       }
@@ -126,12 +127,12 @@
       "number": 7,
       "name": "July",
       "temperature": {
-        "average_c": 24.23,
+        "average_c": 24.82,
         "valid_days": 31,
         "missing_days": 0
       },
       "rainfall": {
-        "total_mm": 216.8,
+        "total_mm": 386.29,
         "valid_days": 31,
         "missing_days": 0
       }
@@ -140,70 +141,14 @@
       "number": 8,
       "name": "August",
       "temperature": {
-        "average_c": 23.6,
-        "valid_days": 31,
-        "missing_days": 0
+        "average_c": 24.98,
+        "valid_days": 14,
+        "missing_days": 4
       },
       "rainfall": {
-        "total_mm": 294.67,
-        "valid_days": 31,
-        "missing_days": 0
-      }
-    },
-    {
-      "number": 9,
-      "name": "September",
-      "temperature": {
-        "average_c": 24.32,
-        "valid_days": 30,
-        "missing_days": 0
-      },
-      "rainfall": {
-        "total_mm": 266.09,
-        "valid_days": 30,
-        "missing_days": 0
-      }
-    },
-    {
-      "number": 10,
-      "name": "October",
-      "temperature": {
-        "average_c": 24.38,
-        "valid_days": 31,
-        "missing_days": 0
-      },
-      "rainfall": {
-        "total_mm": 153.59,
-        "valid_days": 31,
-        "missing_days": 0
-      }
-    },
-    {
-      "number": 11,
-      "name": "November",
-      "temperature": {
-        "average_c": 23.14,
-        "valid_days": 30,
-        "missing_days": 0
-      },
-      "rainfall": {
-        "total_mm": 0.03,
-        "valid_days": 30,
-        "missing_days": 0
-      }
-    },
-    {
-      "number": 12,
-      "name": "December",
-      "temperature": {
-        "average_c": 23.6,
-        "valid_days": 31,
-        "missing_days": 0
-      },
-      "rainfall": {
-        "total_mm": 0.0,
-        "valid_days": 31,
-        "missing_days": 0
+        "total_mm": 192.62,
+        "valid_days": 14,
+        "missing_days": 4
       }
     }
   ]

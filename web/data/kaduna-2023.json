@@ -9,7 +9,8 @@
   "period": {
     "year": 2023,
     "start": "2023-01-01",
-    "end": "2023-12-31"
+    "end": "2023-12-31",
+    "status": "complete"
   },
   "annual_summary": {
     "average_temperature_c": 24.0,
