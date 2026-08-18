@@ -116,6 +116,6 @@ Thin atlas lines, measurement marks and short field-note labels will give Signal
 
 ## Current stage
 
-Signal Atlas currently has only the basic HTML structure.
+Signal Atlas now has a working fixed-location historical report with rainfall and temperature charts, exact-value tables, source details and missing-data notices. Its data-processing pipeline is covered by automated unit tests.
 
-The next goal is to give it a clear visual identity without pretending that the full data system has already been built. This guide can change as I learn more and improve the project.
+The next design goal is to test and refine the complete experience across browsers and devices before adding coordinate-based search or map selection. This guide can change as I learn more and improve the project.
